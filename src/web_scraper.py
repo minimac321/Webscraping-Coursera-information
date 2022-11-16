@@ -1,4 +1,3 @@
-import logging
 import os
 import urllib
 import urllib.parse
@@ -10,6 +9,7 @@ from selenium import webdriver
 
 from google_sheets_utils import upload_csv_to_gsheet
 from src.constants import RESULT_SECTION_NO_MORE_RESULTS_STR
+from src.utils import get_logger
 from src.web_scraping_utils import fetch_course_info_from_course_url, get_all_course_card_info
 
 
@@ -21,10 +21,10 @@ class CourseraWebScraper:
 
     base_url = "https://www.coursera.org"
 
-    def __init__(self, logger: logging.Logger):
+    def __init__(self):
         self.browser = webdriver.Chrome()  # WebDriver
         self.output_worksheet_url = ""
-        self.logger = logger
+        self.logger = get_logger()
 
         self.working_dir = "../working_dir/"
         os.makedirs(self.working_dir, exist_ok=True)
@@ -33,7 +33,7 @@ class CourseraWebScraper:
         self.courses_df = None
         self.output_csv_name = None
 
-    def fetch_and_upload_coursera_category_info(self) -> str:
+    def fetch_and_upload_coursera_category_info(self) -> Optional[str]:
         """
         Extract high level course information, then add specific course information, save the
         information as a csv locally, then upload the csv to a Google sheet.
@@ -122,7 +122,7 @@ class CourseraWebScraper:
         """
         list_of_courses = []
 
-        for page_number in range(1, 2):
+        for page_number in range(1, 50):
             self.logger.info(f"page_number: {page_number}")
             url = self.get_coursera_page_url_by_page_number(page_number, entity_type_desc)
             self.logger.info(f"url: {url}")

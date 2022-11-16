@@ -1,7 +1,10 @@
+import warnings
 from typing import Optional
 
 import requests
 from bs4 import BeautifulSoup, element
+
+from src.utils import value_to_float
 
 
 def get_rating_info(html_soup: BeautifulSoup) -> dict:
@@ -99,28 +102,6 @@ def fetch_course_info_from_course_url(course_url: str):
     return merged_dict
 
 
-def value_to_float(value) -> float:
-    """
-    Convert a value which may be a string, float or int to a float.
-    """
-    if type(value) == float or type(value) == int:
-        return value
-
-    value = value.replace(",", ".").upper()
-    if "K" in value:
-        if len(value) > 1:
-            return float(value.replace("K", "")) * 1000
-        return 1000.0
-    if "M" in value:
-        if len(value) > 1:
-            return float(value.replace("M", "")) * 1000000
-        return 1000000.0
-    if "B" in value:
-        return float(value.replace("B", "")) * 1000000000
-
-    return 0.0
-
-
 def get_course_attributes(card: element.ResultSet) -> Optional[dict]:
     """
     Given a single HTML course card from the Coursera website - extract all the necessary
@@ -150,6 +131,7 @@ def get_course_attributes(card: element.ResultSet) -> Optional[dict]:
         return course_info
 
     except Exception as e:
+        warnings.warn(f"Exception: {e}")
         return None
 
 

@@ -1,5 +1,5 @@
 from functools import partial
-from tkinter import Label, StringVar, OptionMenu, Button, Tk, Text
+from tkinter import Label, StringVar, OptionMenu, Button, Tk
 import webbrowser
 
 from constants import (
