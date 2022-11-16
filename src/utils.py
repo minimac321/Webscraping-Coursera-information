@@ -7,7 +7,8 @@ def get_rating_info(html_soup):
     overall_rating = float(overall_ratings_str.replace("stars", ""))
 
     ratings_str = html_soup.find_all("span", {"data-test": "ratings-count-without-asterisks"})[
-        0].text
+        0
+    ].text
     rating = int(ratings_str.split(" ")[0].replace(",", ""))
 
     rating_info = {
@@ -19,8 +20,9 @@ def get_rating_info(html_soup):
 
 
 def get_enrolled_info(html_soup):
-    num_students_enrolled_str = html_soup.find_all("div", {"class": "_1fpiay2"})[0].find(
-        "strong").find("span").text
+    num_students_enrolled_str = (
+        html_soup.find_all("div", {"class": "_1fpiay2"})[0].find("strong").find("span").text
+    )
     num_students_enrolled = int(num_students_enrolled_str.replace(",", ""))
 
     enrolled_info = {
@@ -35,23 +37,26 @@ def get_description_info(specialized_html_soup, specialized_url=False):
         course_description = specialized_html_soup.find_all("div", {"class": "description"})[0].text
 
     else:
-        course_description = specialized_html_soup.find_all("div", {"class": "m-t-1 description"})[0].find(
-            "div", {"class": "content-inner"}).find("p").text
+        course_description = (
+            specialized_html_soup.find_all("div", {"class": "m-t-1 description"})[0]
+            .find("div", {"class": "content-inner"})
+            .find("p")
+            .text
+        )
 
     description_info = {
         "course_description": course_description,
-
     }
     return description_info
 
 
 def get_provider_info(html_soup):
     course_provider = html_soup.find_all("h3", {"class": "headline-4-text bold rc-Partner__title"})[
-        0].text
+        0
+    ].text
 
     provider_info = {
         "course_provider": course_provider,
-
     }
     return provider_info
 
@@ -63,7 +68,7 @@ def fetch_course_info_from_course_url(course_url):
         specialized_url = False
 
     response = requests.get(course_url)
-    html_soup = BeautifulSoup(response.content, 'html.parser')
+    html_soup = BeautifulSoup(response.content, "html.parser")
 
     # Get Rating Info
     rating_info = get_rating_info(html_soup)

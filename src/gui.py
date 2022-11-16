@@ -13,8 +13,8 @@ def fetch_coursera_category_info(web_scraper, course_category):
 
 def create_gui(web_scraper):
     tk_window = Tk()
-    tk_window.geometry(f'{gui_width}x{gui_height}')
-    tk_window.title('Web Scraping Form')
+    tk_window.geometry(f"{gui_width}x{gui_height}")
+    tk_window.title("Web Scraping Form")
 
     # username label and text entry box
     category_label = Label(tk_window, text="Select Coursera Course Category to scrape data from")
@@ -25,9 +25,7 @@ def create_gui(web_scraper):
     dropdown_menu_text.set(COURSERA_COURSE_CATEGORY_OPTIONS[0])
 
     # Create Dropdown menu
-    dropdown_menu = OptionMenu(
-        tk_window, dropdown_menu_text, *COURSERA_COURSE_CATEGORY_OPTIONS
-    )
+    dropdown_menu = OptionMenu(tk_window, dropdown_menu_text, *COURSERA_COURSE_CATEGORY_OPTIONS)
     dropdown_menu.grid(row=1, column=0, pady=(10, 10), padx=(3, 3))
 
     # Create button, it will change label text

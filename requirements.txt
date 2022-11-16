@@ -3,3 +3,7 @@ requests
 pandas
 numpy
 selenium
+black
+gspread
+oauth2client
+google-api-python-client
