@@ -31,5 +31,5 @@ python src/main_application.py
 Once the application has started select the Graphical User Interface will allow you to select a 
 Courser Category from which to scrape data from. 
 
-Once the data has been scraped it will be uploaded to a Google Sheet and the URL will be indicate 
-where this information can be fetched from.
+Once the data has been scraped it will be uploaded to a Google Sheet and the URL for that sheet will
+be shown on the interface.
