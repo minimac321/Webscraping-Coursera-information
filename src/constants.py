@@ -1,6 +1,7 @@
+APPLICATION_NAME = "Coursera_web_scraper"
 
-gui_width = 375
-gui_height = 20
+gui_width = 800
+gui_height = 250
 
 # TODO: Make this list dynamic
 COURSERA_COURSE_CATEGORY_OPTIONS = [
@@ -24,4 +25,9 @@ GOOGLE_API_SCOPES = [
     "https://www.googleapis.com/auth/drive",
 ]
 
-CREDENTIALS_JSON = "../coursera-web-scraper-sever.json"
+AUTH_CREDENTIALS_JSON = "../coursera-web-scraper-sever.json"
+
+RESULT_SECTION_NO_MORE_RESULTS_STR = "No results found for your search"
+
+
+GUI_URL_LABEL_CLICK_HERE_STR = "CLICK HERE FOR LINK\n"

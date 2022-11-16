@@ -1,12 +1,13 @@
+import os
 import gspread
 import pandas as pd
 from oauth2client.service_account import ServiceAccountCredentials
 
-from constants import GOOGLE_API_SCOPES, GOOGLE_SPREADSHEET_NAME, CREDENTIALS_JSON
+from constants import GOOGLE_API_SCOPES, GOOGLE_SPREADSHEET_NAME, AUTH_CREDENTIALS_JSON
 
 
 def create_new_worksheet(
-    spreadsheet, worksheet_title, rows=100, cols=20
+    spreadsheet: gspread.spreadsheet.Spreadsheet, worksheet_title, rows=100, cols=20
 ) -> gspread.worksheet.Worksheet:
     """
     If worksheet exists then clear it, otherwise create a new sheet
@@ -19,18 +20,22 @@ def create_new_worksheet(
         worksheet = spreadsheet.worksheet(title=worksheet_title)
         worksheet.clear()
     else:
-        worksheet = spreadsheet.add_worksheet(
-            title=worksheet_title, index=0, rows=str(rows), cols=str(cols)
-        )
+        worksheet = spreadsheet.add_worksheet(title=worksheet_title, index=0, rows=rows, cols=cols)
     return worksheet
 
 
-def get_spreadsheet_url(spreadsheet):
+def get_spreadsheet_url(spreadsheet: gspread.spreadsheet.Spreadsheet) -> str:
+    """Get the spreadsheet URL"""
     spreadsheet_url = f"https://docs.google.com/spreadsheets/d/{spreadsheet.id}"
     return spreadsheet_url
 
 
-def upload_df(df: pd.DataFrame, spreadsheet, worksheet_title: str):
+def upload_df(
+    df: pd.DataFrame, spreadsheet: gspread.spreadsheet.Spreadsheet, worksheet_title: str
+) -> gspread.worksheet.Worksheet:
+    """
+    Create a new worksheet on the spreadsheet and then upload all the rows from the data frame
+    """
     # Create new sheet
     new_worksheet = create_new_worksheet(spreadsheet, worksheet_title)
 
@@ -46,21 +51,24 @@ def upload_df(df: pd.DataFrame, spreadsheet, worksheet_title: str):
     return new_worksheet
 
 
-def upload_csv_to_gsheet(csv_filename):
+def upload_csv_to_gsheet(csv_filename: str) -> dict:
+    """
+    Upload the csv file to a new Google sheet worksheet
+
+    :return: A dictionary containing the spreadsheet url and worksheet url
+    """
     credentials = ServiceAccountCredentials.from_json_keyfile_name(
-        CREDENTIALS_JSON, GOOGLE_API_SCOPES
+        AUTH_CREDENTIALS_JSON, GOOGLE_API_SCOPES
     )
     gspread_factory = gspread.authorize(credentials)
     spreadsheet = gspread_factory.open(GOOGLE_SPREADSHEET_NAME)
 
     spreadsheet_url = get_spreadsheet_url(spreadsheet)
-
-    spreadsheet_dict = {}
-    spreadsheet_dict["spreadsheet_url"] = spreadsheet_url
+    spreadsheet_dict = {"spreadsheet_url": spreadsheet_url}
 
     # Get DF
     coursera_course_df = pd.read_csv(csv_filename, index_col=False)
-    worksheet_title = csv_filename.replace(".csv", "")
+    worksheet_title = os.path.basename(csv_filename).replace(".csv", "")
 
     new_worksheet = upload_df(coursera_course_df, spreadsheet, worksheet_title)
     worksheet_url = new_worksheet.url
