@@ -1,12 +1,10 @@
 import urllib
+import urllib.parse
 from typing import Optional
 
 import pandas as pd
 from bs4 import BeautifulSoup, element
-
-import urllib.parse
 from selenium import webdriver
-from selenium.webdriver.chrome.webdriver import WebDriver
 
 from csv_upload_to_google_sheets import upload_csv_to_gsheet
 from gui import create_gui
@@ -21,16 +19,16 @@ def value_to_float(value) -> float:
         return value
 
     value = value.replace(",", ".").upper()
-    if 'K' in value:
+    if "K" in value:
         if len(value) > 1:
-            return float(value.replace('K', '')) * 1000
+            return float(value.replace("K", "")) * 1000
         return 1000.0
-    if 'M' in value:
+    if "M" in value:
         if len(value) > 1:
-            return float(value.replace('M', '')) * 1000000
+            return float(value.replace("M", "")) * 1000000
         return 1000000.0
-    if 'B' in value:
-        return float(value.replace('B', '')) * 1000000000
+    if "B" in value:
+        return float(value.replace("B", "")) * 1000000000
 
     return 0.0
 
@@ -52,7 +50,9 @@ def get_course_attributes(card: element.ResultSet) -> dict:
     course_review_data = card.find_all("p", {"class": "cds-119 css-14d8ngk cds-121"})[0].text
 
     # Set Course Reviews
-    course_reviews_str = course_review_data.replace(" reviews", "").replace("(", "").replace(")", "")
+    course_reviews_str = (
+        course_review_data.replace(" reviews", "").replace("(", "").replace(")", "")
+    )
 
     course_num_of_reviewers = value_to_float(course_reviews_str)
     course_info["num_of_reviewers"] = course_num_of_reviewers
@@ -69,8 +69,9 @@ def get_all_course_card_info(course_card_soup: BeautifulSoup) -> list[dict]:
     :return: A list of dictionaries containing the attributes for individual cards
     """
     # course_cards = course_card_soup.find_all("div", {"class": "css-ilhc4l"})
-    course_cards = course_card_soup.find_all("a",
-                                             {"data-click-key": "search.search.click.search_card"})
+    course_cards = course_card_soup.find_all(
+        "a", {"data-click-key": "search.search.click.search_card"}
+    )
 
     course_information_list = []
 
@@ -100,11 +101,13 @@ class CourseraWebScraper:
     def fetch_html_from_url(self, url: str) -> Optional[BeautifulSoup]:
         self.browser.get(url)
         html = self.browser.page_source
-        course_card_soup = BeautifulSoup(html, 'lxml')
+        course_card_soup = BeautifulSoup(html, "lxml")
 
         # Check if we have more results
-        results_are_finished = course_card_soup.find("div", {
-            "data-e2e": "NumberOfResultsSection"}).text == "No results found for your search"
+        results_are_finished = (
+            course_card_soup.find("div", {"data-e2e": "NumberOfResultsSection"}).text
+            == "No results found for your search"
+        )
 
         # This works!
         if results_are_finished:
@@ -113,7 +116,7 @@ class CourseraWebScraper:
         return course_card_soup
 
     def set_course_category(self, course_category: str):
-        """ Set the course category """
+        """Set the course category"""
         self.course_category = course_category
 
     def get_coursera_page_url_by_page_number(self, page_number: int, entity_type_desc: str) -> str:
@@ -140,7 +143,7 @@ class CourseraWebScraper:
             except Exception as e:
                 print(f"Skipping {course_name} due to Exception {e}")
 
-    def extract_high_level_course_category_df(self, entity_type_desc: str ="Courses"):
+    def extract_high_level_course_category_df(self, entity_type_desc: str = "Courses"):
         list_of_courses = self.extract_course_category_information(entity_type_desc)
 
         self.courses_df = pd.DataFrame(list_of_courses)
@@ -173,9 +176,13 @@ class CourseraWebScraper:
 
     def upload_to_google_sheets(self):
         spreadsheet_dict = upload_csv_to_gsheet(self.output_csv_name)
-        print("======================================================================================")
-        print(f"Uploaded data to url: {spreadsheet_dict.worksheet_url}")
-        print("======================================================================================")
+        print(
+            "======================================================================================"
+        )
+        print(f"Uploaded data to url: {spreadsheet_dict['worksheet_url']}")
+        print(
+            "======================================================================================"
+        )
 
 
 def main():

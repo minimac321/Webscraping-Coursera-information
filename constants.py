@@ -17,4 +17,11 @@ COURSERA_COURSE_CATEGORY_OPTIONS = [
     "Art and Humanities",
 ]
 
-0
+GOOGLE_SPREADSHEET_NAME = "Coursera_Courses_Server"
+
+GOOGLE_API_SCOPES = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive",
+]
+
+CREDENTIALS_JSON = "../coursera-web-scraper-sever.json"
