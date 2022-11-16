@@ -8,6 +8,7 @@ import urllib.parse
 from selenium import webdriver
 from selenium.webdriver.chrome.webdriver import WebDriver
 
+from csv_upload_to_google_sheets import upload_csv_to_gsheet
 from gui import create_gui
 from utils import fetch_course_info_from_course_url
 
@@ -88,6 +89,13 @@ class CourseraWebScraper:
         self.browser = webdriver.Chrome()  # WebDriver
         self.course_category = None
         self.courses_df = None
+        self.output_csv_name = None
+
+    def fetch_and_upload_coursera_category_info(self):
+        self.extract_high_level_course_category_df()
+        self.extract_low_level_course_category_df()
+        self.write_category_data_to_csv()
+        self.upload_to_google_sheets()
 
     def fetch_html_from_url(self, url: str) -> Optional[BeautifulSoup]:
         self.browser.get(url)
@@ -113,7 +121,7 @@ class CourseraWebScraper:
         Generate Coursera URL using page and entity type
         """
         url_str = f"{self.base_url}/search?page={page_number}&index=prod_all_launched_products_term_optimization&entityTypeDescription={entity_type_desc}"
-        topic_url_parsed_str = "&topic=" + urllib.parse.quote(self.course_category)
+        topic_url_parsed_str = "&topic=" + urllib.parse.quote(self.course_category.lower())
         full_url = url_str + topic_url_parsed_str
         return full_url
 
@@ -123,11 +131,14 @@ class CourseraWebScraper:
             course_full_url = self.base_url + row["url"]
             print(f"Course: {course_name}. URL: {course_full_url}")
 
-            merged_dict = fetch_course_info_from_course_url(course_full_url)
-            print("merged_dict", merged_dict)
+            try:
+                merged_dict = fetch_course_info_from_course_url(course_full_url)
 
-            self.courses_df.loc[i, "course_provider"] = merged_dict["course_provider"]
-            self.courses_df.loc[i, "course_description"] = merged_dict["course_description"]
+                self.courses_df.loc[i, "course_provider"] = merged_dict["course_provider"]
+                self.courses_df.loc[i, "course_description"] = merged_dict["course_description"]
+
+            except Exception as e:
+                print(f"Skipping {course_name} due to Exception {e}")
 
     def extract_high_level_course_category_df(self, entity_type_desc: str ="Courses"):
         list_of_courses = self.extract_course_category_information(entity_type_desc)
@@ -139,7 +150,7 @@ class CourseraWebScraper:
     def extract_course_category_information(self, entity_type_desc: str) -> list[dict]:
         list_of_courses = []
 
-        for page_number in range(1, 3):
+        for page_number in range(1, 2):
             print(f"page_number: {page_number}")
             url = self.get_coursera_page_url_by_page_number(page_number, entity_type_desc)
             print("url", url)
@@ -156,9 +167,15 @@ class CourseraWebScraper:
         return list_of_courses
 
     def write_category_data_to_csv(self):
-        print(self.courses_df.head())
-        output_file_name = f"{self.course_category.lower().replace(' ', '-')}_course_info.csv"
-        self.courses_df.to_csv(output_file_name, index=False)
+        print(f"courses_df shape: {self.courses_df.shape}")
+        self.output_csv_name = f"{self.course_category.lower().replace(' ', '_')}_course_info.csv"
+        self.courses_df.to_csv(self.output_csv_name, index=False)
+
+    def upload_to_google_sheets(self):
+        spreadsheet_dict = upload_csv_to_gsheet(self.output_csv_name)
+        print("======================================================================================")
+        print(f"Uploaded data to url: {spreadsheet_dict.worksheet_url}")
+        print("======================================================================================")
 
 
 def main():
@@ -171,8 +188,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-    # from pydrive.auth import GoogleAuth
-    #
-    # gauth = GoogleAuth()
-    # gauth.LocalWebserverAuth()  #
