@@ -39,6 +39,7 @@ class CourseraWebScraper:
         information as a csv locally, then upload the csv to a Google sheet.
         """
         self.extract_high_level_course_category_df()
+        self.logger.info(f"Extracted courses df with shape: {self.courses_df.shape}")
 
         if self.courses_df.shape[0] == 0:
             return None
@@ -113,7 +114,6 @@ class CourseraWebScraper:
         self.courses_df = pd.DataFrame(list_of_courses)
 
         self.courses_df["category"] = self.course_category
-        self.logger.info(f"Extracted courses df with shape: {self.courses_df.shape}")
 
     def extract_course_category_information(self, entity_type_desc: str) -> list[dict]:
         """
@@ -122,7 +122,7 @@ class CourseraWebScraper:
         """
         list_of_courses = []
 
-        for page_number in range(1, 50):
+        for page_number in range(1, 5):
             self.logger.info(f"page_number: {page_number}")
             url = self.get_coursera_page_url_by_page_number(page_number, entity_type_desc)
             self.logger.info(f"url: {url}")
@@ -134,6 +134,7 @@ class CourseraWebScraper:
                 break
 
             course_information_list = get_all_course_card_info(course_card_soup)
+            self.logger.info(f"Found {len(course_information_list)} courses on the page")
             list_of_courses.extend(course_information_list)
 
         return list_of_courses
