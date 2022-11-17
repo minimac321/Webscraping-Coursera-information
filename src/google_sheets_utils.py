@@ -44,6 +44,7 @@ def upload_df(
     new_worksheet.insert_row(column_names, 1)
 
     # Then add all data
+    df.fillna("", inplace=True)
     list_of_tuple_to_append = df.to_records(index=False)
     list_of_rows_to_append = [list(r) for r in list_of_tuple_to_append]
     new_worksheet.append_rows(values=list_of_rows_to_append)

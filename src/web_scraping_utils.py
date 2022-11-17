@@ -107,32 +107,47 @@ def get_course_attributes(card: element.ResultSet) -> Optional[dict]:
     Given a single HTML course card from the Coursera website - extract all the necessary
     information
 
+    Note: Some courses do not have ratings or reviews
+
     :return: Dictionary containing the following attributes for a course:
         ['name', 'rating', 'num_of_reviewers', 'url']
     """
+    course_info = {}
+
+    # Get Name
+    course_name_obj = card.find("h2", {"class": "cds-119 css-bku0rr cds-121"})
+    if course_name_obj is None:
+        course_name_obj = card.find("h2", {"class": "cds-33 css-bku0rr cds-35"})
+    course_name = course_name_obj.text
+    course_info["name"] = course_name
+
+    # Get Rating
     try:
-        course_info = {}
+        course_rating_obj = card.find("p", {"class": "cds-119 css-zl0kzj cds-121"})
+        if course_rating_obj is None:
+            course_rating_obj = card.find("p", {"class": "cds-33 css-zl0kzj cds-35"})
 
-        course_name = card.find("h2", {"class": "cds-119 css-bku0rr cds-121"}).text
+        course_rating = float(course_rating_obj.text)
+        course_info["rating"] = course_rating
+    except AttributeError as e:
+        pass
 
-        course_info["name"] = course_name
-        course_info["rating"] = float(card.find("p", {"class": "cds-119 css-zl0kzj cds-121"}).text)
-        course_review_data = card.find_all("p", {"class": "cds-119 css-14d8ngk cds-121"})[0].text
+    # Get Review
+    try:
+        course_review_obj = card.find("p", {"class": "cds-119 css-14d8ngk cds-121"})
+        if course_review_obj is None:
+            course_review_obj = card.find("p", {"class": "cds-33 css-14d8ngk cds-35"})
 
-        # Set Course Reviews
         course_reviews_str = (
-            course_review_data.replace(" reviews", "").replace("(", "").replace(")", "")
+            course_review_obj.text.replace(" reviews", "").replace("(", "").replace(")", "")
         )
-
         course_num_of_reviewers = value_to_float(course_reviews_str)
         course_info["num_of_reviewers"] = course_num_of_reviewers
+    except (AttributeError, ValueError) as e:
+        pass
 
-        course_info["url"] = card.attrs["href"]
-        return course_info
-
-    except Exception as e:
-        warnings.warn(f"Exception: {e}")
-        return None
+    course_info["url"] = card.attrs["href"]
+    return course_info
 
 
 def get_all_course_card_info(course_card_soup: BeautifulSoup) -> list[dict]:
@@ -147,7 +162,7 @@ def get_all_course_card_info(course_card_soup: BeautifulSoup) -> list[dict]:
 
     course_information_list = []
 
-    for card in course_cards:
+    for i_card, card in enumerate(course_cards):
         course_dict = get_course_attributes(card)
         if course_dict is not None:
             course_information_list.append(course_dict)
