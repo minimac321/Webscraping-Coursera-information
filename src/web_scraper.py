@@ -21,7 +21,9 @@ class CourseraWebScraper:
 
     base_url = "https://www.coursera.org"
 
-    def __init__(self):
+    def __init__(self, num_pages_to_scrape: int = 5):
+        self.num_pages_to_scrape = num_pages_to_scrape
+
         self.browser = webdriver.Chrome()  # WebDriver
         self.output_worksheet_url = ""
         self.logger = get_logger()
@@ -122,7 +124,7 @@ class CourseraWebScraper:
         """
         list_of_courses = []
 
-        for page_number in range(1, 5):
+        for page_number in range(1, self.num_pages_to_scrape):
             self.logger.info(f"page_number: {page_number}")
             url = self.get_coursera_page_url_by_page_number(page_number, entity_type_desc)
             self.logger.info(f"url: {url}")
