@@ -1,8 +1,26 @@
-# Webscraping-Coursera-information
+# Coursera Course Information Webscraper
+
+### Project Brief: 
+Create a webscraper to automatically scan all the Coursera website for a specific course category. Then extract the following details about the course:
+- Course name
+- Course provider 
+- Course description
+- \# of Students enrolled
+- \# of Ratings 
+
+Then upload the results to a Google spreadsheet.
+
+<br>
+
+##### This project uses the following technologies:
+- Selenium, requests, and beautifulsoup4 as the web scraping engine and HTML parsers.
+- google-api-python-client and gspread for connecting and using a Spreadsheet like a server for 
+- uploading.
+- pandas and numpy for data manipulation.
+- Tkinter to create the graphical user interface 
 
 
 ## Getting started
-
 
 #### 0. Project Setup
 Create virtual environment (There are many other ways to do this). The activate it
