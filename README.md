@@ -33,6 +33,11 @@ Install Dependencies
 pip install requirements.txt
 ```
 
+Add Flask Variables
+```commandline
+export FLASK_APP=main
+```
+
 #### 1. Follow tutorial on how to Enable Google Sheets and Google Drive API
 
 
@@ -43,11 +48,12 @@ information. Ensure this file is in the root directory and is named "coursera-we
 
 **To run the application**
 ```commandline
-python src/main_application.py
+flask run
 ```
 
-Once the application has started select the Graphical User Interface will allow you to select a 
-Courser Category from which to scrape data from. 
+Open the application by visiting `http://127.0.0.1:5000` in your browser
+
+Once the application has started select a Courser Category from which to scrape data from. 
 
 Once the data has been scraped it will be uploaded to a Google Sheet and the URL for that sheet will
-be shown on the interface.
+be shown on the browser.
