@@ -3,7 +3,11 @@ import gspread
 import pandas as pd
 from oauth2client.service_account import ServiceAccountCredentials
 
-from constants import GOOGLE_API_SCOPES, GOOGLE_SPREADSHEET_NAME, AUTH_CREDENTIALS_JSON
+import sys
+from os.path import dirname
+sys.path.append(dirname(__file__))
+
+from src.constants import GOOGLE_API_SCOPES, GOOGLE_SPREADSHEET_NAME, AUTH_CREDENTIALS_JSON
 
 
 def create_new_worksheet(

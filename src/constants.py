@@ -25,7 +25,7 @@ GOOGLE_API_SCOPES = [
     "https://www.googleapis.com/auth/drive",
 ]
 
-AUTH_CREDENTIALS_JSON = "../coursera-web-scraper-sever.json"
+AUTH_CREDENTIALS_JSON = "coursera-web-scraper-sever.json"
 
 RESULT_SECTION_NO_MORE_RESULTS_STR = "No results found for your search"
 
