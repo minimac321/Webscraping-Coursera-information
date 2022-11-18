@@ -4,6 +4,10 @@ from typing import Optional
 import requests
 from bs4 import BeautifulSoup, element
 
+import sys
+from os.path import dirname
+sys.path.append(dirname(__file__))
+
 from src.utils import value_to_float
 
 

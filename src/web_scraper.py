@@ -7,7 +7,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from selenium import webdriver
 
-from google_sheets_utils import upload_csv_to_gsheet
+from src.google_sheets_utils import upload_csv_to_gsheet
 from src.constants import RESULT_SECTION_NO_MORE_RESULTS_STR
 from src.utils import get_logger
 from src.web_scraping_utils import fetch_course_info_from_course_url, get_all_course_card_info
@@ -112,6 +112,8 @@ class CourseraWebScraper:
             ['name', 'rating', 'num_of_reviewers', 'url']
         """
         list_of_courses = self.extract_course_category_information(entity_type_desc)
+        # Close browser
+        self.browser.close()
 
         self.courses_df = pd.DataFrame(list_of_courses)
 
