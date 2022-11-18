@@ -53,8 +53,16 @@
                 data: {'input': input},
                 method: 'POST',
                 success: function(data) {
+                    var success_str = JSON.stringify(data);
+                    console.log(success_str);
+
                     $('#output_url').html('URL: \n' + data['worksheet_url'])
-                    console.log(data)
+                },
+                // Error handling
+                error: function (error) {
+                    $('#output_url').html('URL: \nError fetching data. Try again in a few minutes')
+                    var error_str = JSON.stringify(data);
+                    console.log('Error: ' + error_str);
                 }
             });
         });
