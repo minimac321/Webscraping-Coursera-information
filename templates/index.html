@@ -28,7 +28,7 @@
     </style>
 </head>
 <body>
-    <h1>Lets Begin</h1>
+    <h1>Coursera Web Scraping Application</h1>
     <form method="post" id="form">
         <label for="course-category">Choose a Coursera Course Category:</label>
         <select id="course-category" name="course-category-selector">
@@ -61,7 +61,7 @@
                 // Error handling
                 error: function (error) {
                     $('#output_url').html('URL: \nError fetching data. Try again in a few minutes')
-                    var error_str = JSON.stringify(data);
+                    var error_str = JSON.stringify(error);
                     console.log('Error: ' + error_str);
                 }
             });

@@ -18,7 +18,7 @@ def index():
 def fetch_data():
     course_category = request.args.get('course_category')
 
-    web_scraper = CourseraWebScraper(num_pages_to_scrape=3)
+    web_scraper = CourseraWebScraper(num_pages_to_scrape=10)
     web_scraper.set_course_category(course_category)
     worksheet_url = web_scraper.fetch_and_upload_coursera_category_info()
 
