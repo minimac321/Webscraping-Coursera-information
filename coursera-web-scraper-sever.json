@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "coursera-web-scraper-sever",
+  "private_key_id": "5a713601de28d94aa34582d9e51fba7b5886e81d",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCkoD+PwVWVsH2s\nIjIFjIUn5hRg1KAySu8IFgtFPmwmNso9NvahqbUH4R83WF4KixVYIeSOnjB4pOU3\ny2ehRnHi7TEI+9dff1sFJ32EEkNbc8KEI41XR3kKGozjCjide1iT51jZsBOeCeFr\nuDu8J+cD47vACokTK2bv/rSAonSz/LXwR3JpRFH8OlXNgj7C4a3nMNC9IV5cXblk\ne/UB5LEBTl1mVioMsDXlwvxSGHPR4NID4VPz++H4G6b8vwXUHWnkPu0xUtJr/OAb\nrhVVPkERFNkXOJKrByBnzNy0bBD8dhtUUy1s4uH2kUQ6y5FGZoLafEJpGDgtnCIt\n3iXHC96JAgMBAAECggEAAfNWHXVsdqwTKR10m0U5dKoQtr7+MOpbX6ynMIhXTrKa\nfdQvYuX4W6IKtSSqZJSWSaeJJjlwmJVXk+woi6wigE5QJOua9yoyoWKA5bYzrxs1\nhExJie2yXPDIl44Q8qi5+XKlxlqEOPyj+5tAte+BGLYzjMhzLFN40kIh0F5cZJ+G\nhccgIFTW53jUXHhEFrQx4t05XcdWUlsCr9tuu1B20A4f18HRvw5H95HPxiXT0c12\nGIgBCBJexLEyL08xsu6jObl3UFFcFHPJh1yDm7+tLPow1s06bsOvqSCZpX8oUYlY\nRSOlOWNQ5RUgcS1TdLIm2CLGMHzQYTy58uAoR0S5qwKBgQDcfLqVuoe83DdUpJkP\nyxFyYeyzroHo4eFhpqX4knPqxnFR1G9uKMGOIBB8IhyG0F6RkoKZVK9zX2lKpPCB\nHIakLwGCUarlL4YschY57W0kwuontSEZ0yhwF0S8Bob0BAJCyTii4+f8bFD80t2N\nsI6K9qCKnf9TFNK0XVWRqBP3VwKBgQC/JDZZ+hSyCNtVIXN3gi/55NaVD7Wt9LBr\nPI9ngFrO9dC3NbN3haIpOP61nBZPtBrt2/1zjN5ewEVGlQDK5faok4yHdm3vmyB+\n3Sy4NR3JgPtxl3p3CEtYL3owzUeVvGVnTVDRvGXJOHty/TA8nQ+r98PfmVBTXAHo\nlqOP3AqNHwKBgGsQCc4QwD6dtCRetJAtq/AdysFJOH2ryTQQpsD35F+ZModonx8f\nnTT1LuwH6FAyN+l5+f6YV4WvS8JaKwqWnm51AMeV/mTBWeaVE2PXfUr/dpIHauZO\nWXFsawzeIoO0uqBRczXtcsVolz7c6YYWuHCT50rIA6YFE3dPZvCOa/uLAoGBAIOB\nxKtPNiHvmggORcU5mwyRd1mDP3p52U9OkVOiqdeupHUIy3s2RAWcoxIMXAVmYwi3\nzL9Nckk6e+894Re39GazbYJd5vFth4QBZB0w3lefGGBk2es/l6cKs0UUV2YcAqB6\nP1quBlHVPIo2zJNHdFra0rbqYquXp/CAg/Qcbl39AoGAexR1nd/XI7ZKkH7pVFOE\ndwphfENgN2H33NEFZUNEaIJGIs9bLW43Z0xVYsWbgVRqMojypAjO8aakFBQl3wQk\nGIwqpsMNIElpyvMQ3jMDJ+jAz2GAMoFvIPXvJz33Dock2AaT2gFCLlJqzc8h0ezP\nPgK1bmab8wQTgt8I6WYJM10=\n-----END PRIVATE KEY-----\n",
+  "client_email": "serverforsheets@coursera-web-scraper-sever.iam.gserviceaccount.com",
+  "client_id": "105669444764423474865",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/serverforsheets%40coursera-web-scraper-sever.iam.gserviceaccount.com"
+}
